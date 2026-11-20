@@ -1,24 +1,342 @@
+GET http://localhost:5000/
 
-### Register User
+
+### Register Owner (Run only once)
 POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Test User",
-    "email": "test@example.com",
-    "password": "TestPassword123"
+  "name": "FlowForge Owner",
+  "email": "owner@example.com",
+  "password": "OwnerPassword123"
 }
 
 
-### Login User
+### Login Owner
 POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "test@example.com",
-    "password": "TestPassword123"
+  "email": "owner@example.com",
+  "password": "OwnerPassword123"
 }
 
 
-### Logout User
+### Get Current User
+GET http://localhost:5000/api/auth/me
+
+
+### Create Organization
+POST http://localhost:5000/api/organizations
+Content-Type: application/json
+
+{
+  "name": "FlowForge Technologies",
+  "description": "A collaborative SaaS project management platform"
+}
+
+
+### Get All My Organizations
+GET http://localhost:5000/api/organizations/user
+
+
+@organizationId = 6b003e11220aee9a4a000d66
+
+### Send Member Invitation
+POST http://localhost:5000/api/invitations
+Content-Type: application/json
+
+{
+    "organizationId": "{{organizationId}}",
+    "email": "member@example.com",
+    "role": "member"
+}
+
+
+### Logout Owner
 POST http://localhost:5000/api/auth/logout
+
+
+### Register Invited Member
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "FlowForge Member",
+    "email": "member@example.com",
+    "password": "MemberPassword123"
+}
+
+
+### Login Invited Member
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "member@example.com",
+    "password": "MemberPassword123"
+}
+
+
+### Get Current User (Member)
+GET http://localhost:5000/api/auth/me
+
+
+@invitationToken = 086020674c5e1ce6a4ac487efbc58020626fedcb18ffb1a94fd8bc19b76ca4c6
+
+### Accept Organization Invitation
+POST http://localhost:5000/api/invitations/accept
+Content-Type: application/json
+
+{
+    "token": "{{invitationToken}}"
+}
+
+
+### Get Member Organizations
+GET http://localhost:5000/api/organizations/user
+
+### Logout Member
+POST http://localhost:5000/api/auth/logout
+
+
+### Get Members of FlowForge Technologies
+GET http://localhost:5000/api/organizations/6b003e11220aee9a4a000d66/members
+
+
+### Promote Member to Admin
+PUT http://localhost:5000/api/organizations/6b003e11220aee9a4a000d66/members/6b003f13220aee9a4a000d6b
+Content-Type: application/json
+
+{
+    "role": "admin"
+}
+
+
+### Remove Member from Organization
+DELETE http://localhost:5000/api/organizations/6b003e11220aee9a4a000d66/members/6b003f13220aee9a4a000d6b
+
+
+### Get Organization Details
+GET http://localhost:5000/api/organizations/6b003e11220aee9a4a000d66
+
+
+### Update Organization Details
+PUT http://localhost:5000/api/organizations/6b003e11220aee9a4a000d66
+Content-Type: application/json
+
+{
+    "name": "FlowForge Technologies",
+    "description": "An advanced collaborative project management and team productivity platform"
+}
+
+
+### Invite Member Again
+POST http://localhost:5000/api/invitations
+Content-Type: application/json
+
+{
+    "organizationId": "6b003e11220aee9a4a000d66",
+    "email": "member@example.com",
+    "role": "member"
+}
+
+
+@newInvitationToken = 2c9a25f41577e43d7117ff0c1d311186fa8a259b36f69ef54180284bdd3ce1fc
+
+### Accept New Invitation
+POST http://localhost:5000/api/invitations/accept
+Content-Type: application/json
+
+{
+    "token": "{{newInvitationToken}}"
+}
+
+
+### Login Member
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "member@example.com",
+    "password": "MemberPassword123"
+}
+
+
+### Accept New Organization Invitation
+POST http://localhost:5000/api/invitations/accept
+Content-Type: application/json
+
+{
+    "token": "2c9a25f41577e43d7117ff0c1d311186fa8a259b36f69ef54180284bdd3ce1fc"
+}
+
+### Logout Member
+POST http://localhost:5000/api/auth/logout
+
+
+### Login Owner
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "owner@example.com",
+    "password": "OwnerPassword123"
+}
+
+
+### Transfer Organization Ownership
+PUT http://localhost:5000/api/organizations/6b003e11220aee9a4a000d66/ownership
+Content-Type: application/json
+
+{
+    "newOwnerId": "6b003ecd220aee9a4a000d6a"
+}
+
+### Logout Previous Owner
+POST http://localhost:5000/api/auth/logout
+
+### Login New Owner
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "member@example.com",
+    "password": "MemberPassword123"
+}
+### Get Organization Members
+GET http://localhost:5000/api/organizations/6b003e11220aee9a4a000d66/members
+
+
+### Get Organization Details
+GET http://localhost:5000/api/organizations/6b003e11220aee9a4a000d66
+
+
+### Create Project
+POST http://localhost:5000/api/projects
+Content-Type: application/json
+
+{
+    "name": "FlowForge Web Application",
+    "description": "Development of the FlowForge SaaS project management platform",
+    "organizationId": "6b003e11220aee9a4a000d66",
+    "status": "in_progress",
+    "priority": "high"
+}
+
+
+### Get Organization Projects
+GET http://localhost:5000/api/projects/organization/6b003e11220aee9a4a000d66
+
+
+### Get Project Details
+GET http://localhost:5000/api/projects/6b0042956b6b0cb403fe9695
+
+
+### Update Project
+PUT http://localhost:5000/api/projects/6b0042956b6b0cb403fe9695
+Content-Type: application/json
+
+{
+    "name": "FlowForge SaaS Platform",
+    "description": "Building an advanced SaaS project management platform",
+    "status": "completed",
+    "priority": "medium"
+}
+
+
+### Delete Project
+DELETE http://localhost:5000/api/projects/6b0042956b6b0cb403fe9695
+
+
+
+### Recreate Project
+POST http://localhost:5000/api/projects
+Content-Type: application/json
+
+{
+    "name": "FlowForge SaaS Platform",
+    "description": "Development of the FlowForge project management platform",
+    "organizationId": "6b003e11220aee9a4a000d66"
+}
+
+
+### Create Task
+POST http://localhost:5000/api/tasks/project/6b00433d6b6b0cb403fe9696
+Content-Type: application/json
+
+{
+    "title": "Build User Authentication UI",
+    "description": "Create login and registration pages for FlowForge",
+    "status": "todo",
+    "priority": "high",
+    "assignedTo": "6b003ecd220aee9a4a000d6a"
+}
+
+
+### Get Project Tasks
+GET http://localhost:5000/api/tasks/project/6b00433d6b6b0cb403fe9696
+
+
+### Get Task Details
+GET http://localhost:5000/api/tasks/6b00434e6b6b0cb403fe9697
+
+
+### Assign Task
+PUT http://localhost:5000/api/tasks/6b00434e6b6b0cb403fe9697/assign
+Content-Type: application/json
+
+{
+    "userIds": [
+        "6b003ecd220aee9a4a000d6a"
+    ]
+}
+
+
+### Update Task
+PUT http://localhost:5000/api/tasks/6b00434e6b6b0cb403fe9697
+Content-Type: application/json
+
+{
+    "title": "Complete User Authentication UI",
+    "description": "Finish login and registration pages with responsive design",
+    "status": "in-progress",
+    "priority": "medium"
+}
+
+
+### Add Task Comment
+POST http://localhost:5000/api/comments/task/6b00434e6b6b0cb403fe9697
+Content-Type: application/json
+
+{
+    "content": "Started working on the authentication UI. Login page is in progress."
+}
+
+
+### Get Task Comments
+GET http://localhost:5000/api/comments/task/6b00434e6b6b0cb403fe9697
+
+
+### Update Comment
+PUT http://localhost:5000/api/comments/6b0044446b6b0cb403fe9698
+Content-Type: application/json
+
+{
+    "content": "Login page is completed. Now working on the registration page."
+}
+
+
+### Delete Comment
+DELETE http://localhost:5000/api/comments/6b0044446b6b0cb403fe9698
+
+
+### Get Organization Activities
+GET http://localhost:5000/api/activities/6b003e11220aee9a4a000d66
+
+
+### Get Notifications
+GET http://localhost:5000/api/notifications
+
+### Mark Notification as Read
+PUT http://localhost:5000/api/notifications/6b00423b6b0cb403fe9693/read
